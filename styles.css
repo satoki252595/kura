@@ -20,7 +20,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #c5cdd6; outline-
 
 .wrap { max-width: 72rem; margin: 0 auto; padding: 1.25rem 1.25rem 7.5rem; }
 .principles { max-width: 40rem; margin: 0.75rem 0 0; color: var(--faint); font-size: 0.75rem; line-height: 1.7; }
-.share-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; margin-top: 1.25rem; }
+.share-card { width: 100%; height: auto; margin-top: 1.5rem; border-radius: 0.5rem; display: block; }
+.share-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; margin-top: 1rem; }
 .primary { min-height: 2.75rem; padding: 0 1rem; border-radius: 999px; background: var(--fg); color: var(--bg); font-size: 0.875rem; }
 .quiet-btn { min-height: 2.75rem; color: var(--faint); font-size: 0.875rem; }
 .quiet-btn:hover { color: var(--fg); }

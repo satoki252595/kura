@@ -13,6 +13,7 @@ import {
 } from "../src/lib/simulate.ts";
 import { formatAxis, formatPercent, formatReading, formatSignedReading, formatYen } from "../src/lib/format.ts";
 import { planFromSearch, planToSearch, shareSentence, xIntentUrl } from "../src/lib/share.ts";
+import { paintShareCard, sharePaintedCard } from "../src/lib/share-card.ts";
 
 declare global {
   interface Window {
@@ -39,6 +40,8 @@ const api = {
   planToSearch,
   shareSentence,
   xIntentUrl,
+  paintShareCard,
+  sharePaintedCard,
 };
 
 window.Kura = api;

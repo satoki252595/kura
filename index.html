@@ -35,7 +35,7 @@
           <p class="quiet">資産のシミュレーション</p>
         </div>
         <p class="principles">
-          ログインなし。広告なし。利回りに上限は設けず、コストは年0%と書きます。数字はURLに入るので、スクショではなく条件ごと送れます。
+          ログインなし。広告なし。利回りに上限は設けず、コストは年0%と書きます。投稿には、その条件のグラフ画像と、同じ条件で開くリンクが付きます。
         </p>
       </header>
 
@@ -46,10 +46,13 @@
           <p id="yen" class="yen"></p>
           <p id="delta" class="delta"></p>
           <p id="warn" class="warn" hidden></p>
+          <canvas id="share-card" width="1200" height="675" class="share-card" aria-label="Xに添えるグラフ"></canvas>
+          <p class="note">この画像が投稿に付きます。</p>
           <div class="share-row">
             <button id="share-x" type="button" class="primary">Xで共有</button>
             <button id="copy" type="button" class="quiet-btn">文とリンクをコピー</button>
           </div>
+          <p id="share-note" class="note" hidden></p>
         </section>
 
         <section class="controls" aria-labelledby="controls-heading">

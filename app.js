@@ -202,6 +202,8 @@ function render() {
   document.title = `${K.formatReading(final.balance)} — KURA`;
   $("dock-num").textContent = K.formatReading(final.balance);
   $("dock-years").textContent = `${plan.years}年`;
+  const card = $("share-card");
+  if (card) K.paintShareCard(card.getContext("2d"), plan, view);
 }
 
 function bind() {
@@ -237,7 +239,22 @@ function bind() {
     plan = structuredClone(K.DEFAULT_PLAN);
     render();
   });
-  const post = () => window.open(K.xIntentUrl(sentence, location.href), "_blank", "noopener,noreferrer");
+  const post = async () => {
+    const note = $("share-note");
+    try {
+      const result = await K.sharePaintedCard($("share-card"), plan, K.project(plan), location.href);
+      if (result === "copied") {
+        note.hidden = false;
+        note.textContent = "画像をコピーしました。投稿画面に貼ってください。";
+      } else if (result === "downloaded") {
+        note.hidden = false;
+        note.textContent = "画像を保存しました。投稿に添付してください。";
+      } else note.hidden = true;
+    } catch {
+      note.hidden = false;
+      note.textContent = "共有を中断しました。";
+    }
+  };
   $("share-x").addEventListener("click", post);
   $("dock-share").addEventListener("click", post);
   $("copy").addEventListener("click", async () => {
