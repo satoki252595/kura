@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KURA</title>
+    <meta
+      name="description"
+      content="いまの資産、毎月の入金と出金、利回り、置き場所、年数から、将来の資産を試算します。"
+    />
+    <meta name="theme-color" content="#10110F" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="top">
+        <p class="mark">KURA</p>
+        <p class="quiet">資産のシミュレーション</p>
+      </header>
+
+      <div class="grid">
+        <section aria-labelledby="result-heading">
+          <p id="result-heading" class="quiet"><span id="years-label">30</span>年後の想定</p>
+          <p id="hero" class="hero" aria-live="polite">—</p>
+          <p id="yen" class="yen"></p>
+          <p id="delta" class="delta"></p>
+          <p id="warn" class="warn" hidden></p>
+
+          <div class="chart-block">
+            <svg id="chart" viewBox="0 0 640 260" role="img" aria-label="年ごとの資産の折れ線"></svg>
+            <p id="range" class="quiet range"></p>
+            <p class="note">
+              線は、入力した利回りが毎年続いた場合です。範囲は、この置き方の値動きで何度も試したときの、おおよそ下位10%から上位10%です。
+            </p>
+          </div>
+
+          <dl class="stats">
+            <div>
+              <dt>累計入金</dt>
+              <dd id="stat-in"></dd>
+            </div>
+            <div>
+              <dt>累計出金</dt>
+              <dd id="stat-out"></dd>
+            </div>
+            <div>
+              <dt>運用益</dt>
+              <dd id="stat-gain"></dd>
+            </div>
+          </dl>
+          <p id="shortfall" class="warn small" hidden></p>
+          <p id="gap" class="delta gap" hidden></p>
+
+          <div class="table-head">
+            <h2>年ごとの残高</h2>
+            <button id="toggle-years" type="button">すべての年を見る</button>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>年</th>
+                  <th>資産</th>
+                  <th>運用益</th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section aria-labelledby="controls-heading">
+          <h2 id="controls-heading" class="quiet">条件</h2>
+          <div id="presets" class="presets" role="group" aria-label="例"></div>
+
+          <label class="field">
+            <span>いまの資産</span>
+            <span class="field-row">
+              <input id="initial" inputmode="numeric" autocomplete="off" aria-label="いまの資産" />
+              <span class="unit">円</span>
+            </span>
+          </label>
+          <label class="field">
+            <span>毎月の入金</span>
+            <span class="field-row">
+              <input id="deposit" inputmode="numeric" autocomplete="off" aria-label="毎月の入金" />
+              <span class="unit">円</span>
+            </span>
+          </label>
+          <label class="field">
+            <span>毎月の出金</span>
+            <span class="field-row">
+              <input id="withdraw" inputmode="numeric" autocomplete="off" aria-label="毎月の出金" />
+              <span class="unit">円</span>
+            </span>
+          </label>
+          <p id="net" class="quiet net" hidden></p>
+
+          <div class="block">
+            <div class="split">
+              <h2>運用する年数</h2>
+              <p class="years"><span id="years-value">30</span><span class="unit">年</span></p>
+            </div>
+            <input id="years" type="range" min="1" max="50" step="1" aria-label="運用する年数" />
+            <div class="ends"><span>1</span><span>50</span></div>
+          </div>
+
+          <div class="block">
+            <div class="split end">
+              <div>
+                <h2 class="quiet">利回り</h2>
+                <p id="yield" class="yield">—</p>
+              </div>
+              <button id="manual-toggle" type="button">数字を直接入れる</button>
+            </div>
+            <p id="yield-note" class="note"></p>
+            <input id="manual" type="range" min="-5" max="15" step="0.1" aria-label="年利回り" hidden />
+          </div>
+
+          <div class="block">
+            <div class="split">
+              <h2>資産の置き場所</h2>
+              <p id="vol" class="quiet"></p>
+            </div>
+            <div id="bar" class="bar" aria-hidden="true"></div>
+            <ul id="sleeves" class="sleeves"></ul>
+          </div>
+
+          <button id="reset" type="button" class="reset">はじめの数字に戻す</button>
+        </section>
+      </div>
+
+      <footer>
+        月末に入金・出金し、その月の利回りは期首の残高に付くものとして計算しています。税金、手数料、物価、為替、毎年の上げ下げは含みません。将来の成果を約束するものではなく、投資の助言でもありません。
+      </footer>
+    </main>
+    <script src="engine.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
