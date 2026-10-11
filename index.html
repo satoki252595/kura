@@ -6,9 +6,18 @@
     <title>KURA</title>
     <meta
       name="description"
-      content="いまの資産、毎月の入金と出金、利回り、置き場所、年数から、将来の資産を試算します。"
+      content="いまの資産、毎月の入金と出金、利回り、置き場所、年数から、将来の資産を試算します。ログインも広告もありません。"
     />
     <meta name="theme-color" content="#10110F" />
+    <meta property="og:title" content="KURA — 資産のシミュレーション" />
+    <meta property="og:description" content="ログインなし。広告なし。条件はURLに入ったまま送れます。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://satoki252595.github.io/kura/" />
+    <meta property="og:image" content="https://satoki252595.github.io/kura/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="KURA — 資産のシミュレーション" />
+    <meta name="twitter:description" content="ログインなし。広告なし。条件はURLに入ったまま送れます。" />
+    <meta name="twitter:image" content="https://satoki252595.github.io/kura/og.jpg" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,63 +29,30 @@
   </head>
   <body>
     <main class="wrap">
-      <header class="top">
-        <p class="mark">KURA</p>
-        <p class="quiet">資産のシミュレーション</p>
+      <header>
+        <div class="top">
+          <p class="mark">KURA</p>
+          <p class="quiet">資産のシミュレーション</p>
+        </div>
+        <p class="principles">
+          ログインなし。広告なし。利回りに上限は設けず、コストは年0%と書きます。数字はURLに入るので、スクショではなく条件ごと送れます。
+        </p>
       </header>
 
       <div class="grid">
-        <section aria-labelledby="result-heading">
+        <section class="hero-block" aria-labelledby="result-heading">
           <p id="result-heading" class="quiet"><span id="years-label">30</span>年後の想定</p>
           <p id="hero" class="hero" aria-live="polite">—</p>
           <p id="yen" class="yen"></p>
           <p id="delta" class="delta"></p>
           <p id="warn" class="warn" hidden></p>
-
-          <div class="chart-block">
-            <svg id="chart" viewBox="0 0 640 260" role="img" aria-label="年ごとの資産の折れ線"></svg>
-            <p id="range" class="quiet range"></p>
-            <p class="note">
-              線は、入力した利回りが毎年続いた場合です。範囲は、この置き方の値動きで何度も試したときの、おおよそ下位10%から上位10%です。
-            </p>
-          </div>
-
-          <dl class="stats">
-            <div>
-              <dt>累計入金</dt>
-              <dd id="stat-in"></dd>
-            </div>
-            <div>
-              <dt>累計出金</dt>
-              <dd id="stat-out"></dd>
-            </div>
-            <div>
-              <dt>運用益</dt>
-              <dd id="stat-gain"></dd>
-            </div>
-          </dl>
-          <p id="shortfall" class="warn small" hidden></p>
-          <p id="gap" class="delta gap" hidden></p>
-
-          <div class="table-head">
-            <h2>年ごとの残高</h2>
-            <button id="toggle-years" type="button">すべての年を見る</button>
-          </div>
-          <div class="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>年</th>
-                  <th>資産</th>
-                  <th>運用益</th>
-                </tr>
-              </thead>
-              <tbody id="rows"></tbody>
-            </table>
+          <div class="share-row">
+            <button id="share-x" type="button" class="primary">Xで共有</button>
+            <button id="copy" type="button" class="quiet-btn">文とリンクをコピー</button>
           </div>
         </section>
 
-        <section aria-labelledby="controls-heading">
+        <section class="controls" aria-labelledby="controls-heading">
           <h2 id="controls-heading" class="quiet">条件</h2>
           <div id="presets" class="presets" role="group" aria-label="例"></div>
 
@@ -135,12 +111,61 @@
 
           <button id="reset" type="button" class="reset">はじめの数字に戻す</button>
         </section>
+
+        <section class="detail" aria-label="推移">
+          <div class="chart-block">
+            <svg id="chart" viewBox="0 0 640 260" role="img" aria-label="年ごとの資産の折れ線"></svg>
+            <p id="range" class="quiet range"></p>
+            <p class="note">
+              線は、入力した利回りが毎年続いた場合です。範囲は、この置き方の値動きで何度も試したときの、おおよそ下位10%から上位10%です。
+            </p>
+          </div>
+
+          <dl class="stats">
+            <div>
+              <dt>累計入金</dt>
+              <dd id="stat-in"></dd>
+            </div>
+            <div>
+              <dt>累計出金</dt>
+              <dd id="stat-out"></dd>
+            </div>
+            <div>
+              <dt>運用益</dt>
+              <dd id="stat-gain"></dd>
+            </div>
+          </dl>
+          <p id="shortfall" class="warn small" hidden></p>
+          <p id="gap" class="delta gap" hidden></p>
+
+          <div class="table-head">
+            <h2>年ごとの残高</h2>
+            <button id="toggle-years" type="button">すべての年を見る</button>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>年</th>
+                  <th>資産</th>
+                  <th>運用益</th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+        </section>
       </div>
 
       <footer>
         月末に入金・出金し、その月の利回りは期首の残高に付くものとして計算しています。ランニングコスト（信託報酬や口座の維持費）は年0%です。税金、物価、為替、毎年の上げ下げは含みません。将来の成果を約束するものではなく、投資の助言でもありません。
       </footer>
     </main>
+
+    <div class="dock">
+      <p><span id="dock-num" class="dock-num">—</span><span id="dock-years" class="quiet"></span></p>
+      <button id="dock-share" type="button" class="primary">Xで共有</button>
+    </div>
     <script src="engine.js"></script>
     <script src="app.js"></script>
   </body>

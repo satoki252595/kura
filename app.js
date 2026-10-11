@@ -2,9 +2,11 @@ const K = window.Kura;
 const $ = (id) => document.getElementById(id);
 
 const OPACITY = [1, 0.7, 0.45, 0.3, 0.2];
-let plan = K.loadPlan() || structuredClone(K.DEFAULT_PLAN);
+const fromUrl = K.planFromSearch(location.search);
+let plan = fromUrl || K.loadPlan() || structuredClone(K.DEFAULT_PLAN);
 let showAll = false;
 let ready = false;
+let sentence = "";
 
 function money(raw) {
   const digits = String(raw).replace(/[^\d]/g, "");
@@ -191,7 +193,15 @@ function render() {
     input.value = (plan.returns[input.getAttribute("data-return")] * 100).toFixed(1);
   });
 
-  if (ready) K.savePlan(plan);
+  if (ready) {
+    K.savePlan(plan);
+    const next = `${location.pathname}?${K.planToSearch(plan)}`;
+    history.replaceState(null, "", next);
+  }
+  sentence = K.shareSentence(plan, view);
+  document.title = `${K.formatReading(final.balance)} — KURA`;
+  $("dock-num").textContent = K.formatReading(final.balance);
+  $("dock-years").textContent = `${plan.years}年`;
 }
 
 function bind() {
@@ -226,6 +236,21 @@ function bind() {
   $("reset").addEventListener("click", () => {
     plan = structuredClone(K.DEFAULT_PLAN);
     render();
+  });
+  const post = () => window.open(K.xIntentUrl(sentence, location.href), "_blank", "noopener,noreferrer");
+  $("share-x").addEventListener("click", post);
+  $("dock-share").addEventListener("click", post);
+  $("copy").addEventListener("click", async () => {
+    const text = `${sentence}\n${location.href}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      $("copy").textContent = "コピーしました";
+      setTimeout(() => {
+        $("copy").textContent = "文とリンクをコピー";
+      }, 1600);
+    } catch {
+      window.prompt("この文をコピーしてください", text);
+    }
   });
   ready = true;
   render();

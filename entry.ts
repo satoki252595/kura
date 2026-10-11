@@ -12,6 +12,7 @@ import {
   type SleeveId,
 } from "../src/lib/simulate.ts";
 import { formatAxis, formatPercent, formatReading, formatSignedReading, formatYen } from "../src/lib/format.ts";
+import { planFromSearch, planToSearch, shareSentence, xIntentUrl } from "../src/lib/share.ts";
 
 declare global {
   interface Window {
@@ -34,6 +35,10 @@ const api = {
   formatReading,
   formatSignedReading,
   formatYen,
+  planFromSearch,
+  planToSearch,
+  shareSentence,
+  xIntentUrl,
 };
 
 window.Kura = api;
