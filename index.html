@@ -35,7 +35,7 @@
           <p class="quiet">資産のシミュレーション</p>
         </div>
         <p class="principles">
-          ログインなし。広告なし。利回りに上限は設けず、コストは年0%と書きます。投稿には、その条件のグラフ画像と、同じ条件で開くリンクが付きます。
+          持っているお金が、何年後にいくらになるか。数字を変えると、上の金額が変わります。
         </p>
       </header>
 
@@ -44,10 +44,30 @@
           <p id="result-heading" class="quiet"><span id="years-label">30</span>年後の想定</p>
           <p id="hero" class="hero" aria-live="polite">—</p>
           <p id="yen" class="yen"></p>
-          <p id="delta" class="delta"></p>
+          <p id="story" class="story"></p>
+          <p id="assume" class="note"></p>
           <p id="warn" class="warn" hidden></p>
-          <canvas id="share-card" width="1200" height="675" class="share-card" aria-label="Xに添えるグラフ"></canvas>
-          <p class="note">この画像が投稿に付きます。</p>
+          <div class="chart-block">
+            <svg id="chart" viewBox="0 0 640 260" role="img" aria-label="年ごとの金額の折れ線"></svg>
+            <p id="range" class="story"></p>
+          </div>
+          <dl class="stats">
+            <div>
+              <dt>足した合計</dt>
+              <dd id="stat-in"></dd>
+            </div>
+            <div>
+              <dt>使った合計</dt>
+              <dd id="stat-out"></dd>
+            </div>
+            <div>
+              <dt>増えた分</dt>
+              <dd id="stat-gain"></dd>
+            </div>
+          </dl>
+          <p id="shortfall" class="warn small" hidden></p>
+          <p id="gap" class="story" hidden></p>
+          <canvas id="share-card" width="1200" height="675" class="share-card" aria-hidden="true"></canvas>
           <div class="share-row">
             <button id="share-x" type="button" class="primary">Xで共有</button>
             <button id="copy" type="button" class="quiet-btn">文とリンクをコピー</button>
@@ -56,27 +76,28 @@
         </section>
 
         <section class="controls" aria-labelledby="controls-heading">
-          <h2 id="controls-heading" class="quiet">条件</h2>
+          <h2 id="controls-heading" class="quiet">数字を変える</h2>
+          <p class="story tight">まず、近い例を押してください。</p>
           <div id="presets" class="presets" role="group" aria-label="例"></div>
 
           <label class="field">
-            <span>いまの資産</span>
+            <span>いま持っているお金</span>
             <span class="field-row">
-              <input id="initial" inputmode="numeric" autocomplete="off" aria-label="いまの資産" />
+              <input id="initial" inputmode="numeric" autocomplete="off" aria-label="いま持っているお金" />
               <span class="unit">円</span>
             </span>
           </label>
           <label class="field">
-            <span>毎月の入金</span>
+            <span>毎月足すお金</span>
             <span class="field-row">
-              <input id="deposit" inputmode="numeric" autocomplete="off" aria-label="毎月の入金" />
+              <input id="deposit" inputmode="numeric" autocomplete="off" aria-label="毎月足すお金" />
               <span class="unit">円</span>
             </span>
           </label>
           <label class="field">
-            <span>毎月の出金</span>
+            <span>毎月使うお金</span>
             <span class="field-row">
-              <input id="withdraw" inputmode="numeric" autocomplete="off" aria-label="毎月の出金" />
+              <input id="withdraw" inputmode="numeric" autocomplete="off" aria-label="毎月使うお金" />
               <span class="unit">円</span>
             </span>
           </label>
@@ -84,30 +105,31 @@
 
           <div class="block">
             <div class="split">
-              <h2>運用する年数</h2>
+              <h2>何年後を見るか</h2>
               <p class="years"><span id="years-value">30</span><span class="unit">年</span></p>
             </div>
-            <input id="years" type="range" min="1" max="50" step="1" aria-label="運用する年数" />
+            <input id="years" type="range" min="1" max="50" step="1" aria-label="何年後を見るか" />
             <div class="ends"><span>1</span><span>50</span></div>
           </div>
 
           <div class="block">
             <div class="split end">
               <div>
-                <h2 class="quiet">利回り</h2>
+                <h2 class="quiet">1年でどのくらい増える想定か</h2>
                 <p id="yield" class="yield">—</p>
               </div>
-              <button id="manual-toggle" type="button">数字を直接入れる</button>
+              <button id="manual-toggle" type="button">自分で％を入れる</button>
             </div>
             <p id="yield-note" class="note"></p>
-            <input id="manual" type="range" min="-5" max="15" step="0.1" aria-label="年利回り" hidden />
+            <input id="manual" type="range" min="-5" max="15" step="0.1" aria-label="1年で増える割合" hidden />
           </div>
 
           <div class="block">
             <div class="split">
-              <h2>資産の置き場所</h2>
+              <h2>お金の置き場所</h2>
               <p id="vol" class="quiet"></p>
             </div>
+            <p class="note">合計はいつも100%です。ひとつを動かすと、ほかがついて調整されます。</p>
             <div id="bar" class="bar" aria-hidden="true"></div>
             <ul id="sleeves" class="sleeves"></ul>
           </div>
@@ -115,34 +137,9 @@
           <button id="reset" type="button" class="reset">はじめの数字に戻す</button>
         </section>
 
-        <section class="detail" aria-label="推移">
-          <div class="chart-block">
-            <svg id="chart" viewBox="0 0 640 260" role="img" aria-label="年ごとの資産の折れ線"></svg>
-            <p id="range" class="quiet range"></p>
-            <p class="note">
-              線は、入力した利回りが毎年続いた場合です。範囲は、この置き方の値動きで何度も試したときの、おおよそ下位10%から上位10%です。
-            </p>
-          </div>
-
-          <dl class="stats">
-            <div>
-              <dt>累計入金</dt>
-              <dd id="stat-in"></dd>
-            </div>
-            <div>
-              <dt>累計出金</dt>
-              <dd id="stat-out"></dd>
-            </div>
-            <div>
-              <dt>運用益</dt>
-              <dd id="stat-gain"></dd>
-            </div>
-          </dl>
-          <p id="shortfall" class="warn small" hidden></p>
-          <p id="gap" class="delta gap" hidden></p>
-
+        <section class="detail" aria-label="年ごとの金額">
           <div class="table-head">
-            <h2>年ごとの残高</h2>
+            <h2>年ごとの金額</h2>
             <button id="toggle-years" type="button">すべての年を見る</button>
           </div>
           <div class="table-scroll">
@@ -150,8 +147,8 @@
               <thead>
                 <tr>
                   <th>年</th>
-                  <th>資産</th>
-                  <th>運用益</th>
+                  <th>金額</th>
+                  <th>増えた分</th>
                 </tr>
               </thead>
               <tbody id="rows"></tbody>
@@ -161,7 +158,7 @@
       </div>
 
       <footer>
-        月末に入金・出金し、その月の利回りは期首の残高に付くものとして計算しています。ランニングコスト（信託報酬や口座の維持費）は年0%です。税金、物価、為替、毎年の上げ下げは含みません。将来の成果を約束するものではなく、投資の助言でもありません。
+        毎月の終わりに、足すお金と使うお金を反映しています。維持費は0円です。税金、物価、為替は入っていません。毎年同じように増えるとは限りません。投資の助言ではありません。
       </footer>
     </main>
 

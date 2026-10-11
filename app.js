@@ -62,7 +62,7 @@ function renderSleeves() {
           <p class="sub">${sleeve.note}</p>
         </div>
         <label><span class="sr"></span>
-          <input class="pct" inputmode="decimal" aria-label="${sleeve.name}の利回り" data-return="${sleeve.id}" />%
+          <input class="pct" inputmode="decimal" aria-label="${sleeve.name}の1年の増え方" data-return="${sleeve.id}" />%
         </label>
       </div>
       <div class="sleeve-slider">
@@ -113,14 +113,15 @@ function render() {
   $("years-label").textContent = String(plan.years);
   $("hero").textContent = K.formatReading(final.balance);
   $("yen").textContent = K.formatYen(final.balance);
-  $("delta").textContent = `いまより ${K.formatSignedReading(final.balance - plan.initial)} · 利回り ${K.formatPercent(view.annual)} · ランニングコスト ${K.formatPercent(view.runningCost, view.runningCost === 0 ? 0 : 1)}`;
+  $("story").textContent = K.plainStory(plan);
+  $("assume").textContent = `1年で ${K.formatPercent(view.annual)} 増える想定。維持費は0円です。`;
   const warn = $("warn");
   if (view.base.depletedYear !== null) {
     warn.hidden = false;
-    warn.textContent = `${view.base.depletedYear}年目に、この出金は資産を上回ります。`;
+    warn.textContent = `${view.base.depletedYear}年目に、使うお金が残っているお金を上回ります。`;
   } else warn.hidden = true;
   $("chart").innerHTML = chart(view.points);
-  $("range").textContent = `揺れの範囲 ${K.formatReading(last.low)} – ${K.formatReading(last.high)}`;
+  $("range").textContent = `線は、この増え方が毎年続いた場合です。値動きがあると、最後は少なめ${K.formatReading(last.low)}、多め${K.formatReading(last.high)}くらいまで広がります。`;
   $("stat-in").textContent = K.formatReading(final.deposited);
   $("stat-out").textContent = K.formatReading(final.withdrawn);
   const gain = $("stat-gain");
@@ -129,13 +130,13 @@ function render() {
   const short = $("shortfall");
   if (final.shortfall > 1) {
     short.hidden = false;
-    short.textContent = `出せなかった額の累計 ${K.formatReading(final.shortfall)}`;
+    short.textContent = `残らなくて使えなかった分 ${K.formatReading(final.shortfall)}`;
   } else short.hidden = true;
   const gap = final.balance - view.cash.final.balance;
   const gapEl = $("gap");
   if (Math.abs(gap) >= 10000) {
     gapEl.hidden = false;
-    gapEl.textContent = `同じ入出金で預金だけだと${K.formatReading(view.cash.final.balance)}。置き方による差は${K.formatSignedReading(gap)}。`;
+    gapEl.textContent = `全部を預金に置くと${K.formatReading(view.cash.final.balance)}。いまの置き方との差は${K.formatSignedReading(gap)}です。`;
   } else gapEl.hidden = true;
 
   const rows = showAll
@@ -166,16 +167,16 @@ function render() {
   if (document.activeElement !== $("years")) $("years").value = String(plan.years);
   $("yield").textContent = K.formatPercent(view.annual);
   const manual = plan.manualReturn !== null;
-  $("manual-toggle").textContent = manual ? "置き場所から計算" : "数字を直接入れる";
+  $("manual-toggle").textContent = manual ? "置き場所から計算する" : "自分で％を入れる";
   $("manual").hidden = !manual;
   $("yield-note").textContent = manual
-    ? `置き場所から計算すると ${K.formatPercent(view.blended)}。いまの試算はこの数字を使います。`
-    : "下の置き場所と、それぞれの利回りから計算しています。利回りは目安で、書き換えられます。";
+    ? `置き場所から計算すると ${K.formatPercent(view.blended)} です。いまは、ここで入れた％を使っています。`
+    : "下の置き場所から計算しています。％の数字は、目安なので書き換えられます。維持費は0円です。";
   if (manual && document.activeElement !== $("manual")) {
     $("manual").value = String(Math.min(15, Math.max(-5, plan.manualReturn * 100)));
   }
 
-  $("vol").textContent = `揺れの目安 ${K.formatPercent(view.vol)}`;
+  $("vol").textContent = `値動き ${K.formatPercent(view.vol)}`;
   $("bar").innerHTML = K.SLEEVES.map(
     (sleeve, index) =>
       `<i style="width:${plan.weights[sleeve.id]}%;opacity:${OPACITY[index]}"></i>`,
