@@ -111,7 +111,7 @@ function render() {
   $("years-label").textContent = String(plan.years);
   $("hero").textContent = K.formatReading(final.balance);
   $("yen").textContent = K.formatYen(final.balance);
-  $("delta").textContent = `いまより ${K.formatSignedReading(final.balance - plan.initial)} · 利回り ${K.formatPercent(view.annual)}`;
+  $("delta").textContent = `いまより ${K.formatSignedReading(final.balance - plan.initial)} · 利回り ${K.formatPercent(view.annual)} · ランニングコスト ${K.formatPercent(view.runningCost, view.runningCost === 0 ? 0 : 1)}`;
   const warn = $("warn");
   if (view.base.depletedYear !== null) {
     warn.hidden = false;
