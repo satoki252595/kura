@@ -11,5 +11,6 @@ export default defineConfig({
     },
     outDir: "publish",
     emptyOutDir: false,
+    publicDir: false,
   },
 });
