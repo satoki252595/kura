@@ -36,17 +36,17 @@ function chart(points) {
   for (let i = 0; i <= ticks; i++) {
     const value = (max / ticks) * i;
     const yy = y(value);
-    grid += `<line x1="${left}" y1="${yy.toFixed(1)}" x2="${w - right}" y2="${yy.toFixed(1)}" stroke="#e6e1da" />`;
-    grid += `<text x="${left - 8}" y="${(yy + 4).toFixed(1)}" fill="#8a847c" font-size="12" text-anchor="end">${K.formatAxis(value)}</text>`;
+    grid += `<line x1="${left}" y1="${yy.toFixed(1)}" x2="${w - right}" y2="${yy.toFixed(1)}" stroke="#e4dfd6" />`;
+    grid += `<text x="${left - 8}" y="${(yy + 4).toFixed(1)}" fill="#736e66" font-size="12" text-anchor="end">${K.formatAxis(value)}</text>`;
   }
   const labelEvery = points.length > 16 ? 10 : 5;
   let labels = "";
   points.forEach((p, i) => {
     if (i !== 0 && i !== points.length - 1 && p.year % labelEvery !== 0) return;
-    labels += `<text x="${x(i).toFixed(1)}" y="${h - 6}" fill="#8a847c" font-size="12" text-anchor="middle">${p.year === 0 ? "いま" : p.year}</text>`;
+    labels += `<text x="${x(i).toFixed(1)}" y="${h - 6}" fill="#736e66" font-size="12" text-anchor="middle">${p.year === 0 ? "いま" : p.year}</text>`;
   });
   const end = points[points.length - 1];
-  return `${grid}<path d="${area}" fill="#e25c38" fill-opacity="0.1"></path><path d="${line}" fill="none" stroke="#e25c38" stroke-width="2.25"></path><circle cx="${x(points.length - 1).toFixed(1)}" cy="${y(end.base).toFixed(1)}" r="3.5" fill="#e25c38"></circle>${labels}`;
+  return `${grid}<path d="${area}" fill="#1e4b8a" fill-opacity="0.08"></path><path d="${line}" fill="none" stroke="#1e4b8a" stroke-width="2.25"></path><circle cx="${x(points.length - 1).toFixed(1)}" cy="${y(end.base).toFixed(1)}" r="3.5" fill="#1e4b8a"></circle>${labels}`;
 }
 
 function renderSleeves() {
