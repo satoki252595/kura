@@ -2,6 +2,8 @@
   color-scheme: dark;
   --bg: #10110f;
   --fg: #f3f0e8;
+  --accent: #e25c38;
+  --ink: #1a100c;
   --muted: #a39e93;
   --faint: #6f6b63;
   --line: #2c2d28;
@@ -15,15 +17,15 @@ html, body { margin: 0; background: var(--bg); color: var(--fg); }
 body { font-family: var(--sans); text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
 button, input { font-family: inherit; color: inherit; }
 button { cursor: pointer; background: none; border: 0; padding: 0; }
-button:focus-visible, input:focus-visible { outline: 2px solid #c5cdd6; outline-offset: 3px; }
-::selection { background: #c5cdd6; color: #141516; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+::selection { background: var(--accent); color: var(--ink); }
 
 .wrap { max-width: 72rem; margin: 0 auto; padding: 1.25rem 1.25rem 7.5rem; }
 .principles, .story { max-width: 40rem; margin: 0.75rem 0 0; color: var(--muted); font-size: 0.875rem; line-height: 1.7; }
 .story.tight { margin-top: 0.5rem; }
 .share-card { position: fixed; left: -9999px; top: 0; }
 .share-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; margin-top: 1.5rem; }
-.primary { min-height: 2.75rem; padding: 0 1rem; border-radius: 999px; background: var(--fg); color: var(--bg); font-size: 0.875rem; }
+.primary { min-height: 2.75rem; padding: 0 1rem; border-radius: 999px; background: var(--accent); color: var(--ink); font-size: 0.875rem; }
 .quiet-btn { min-height: 2.75rem; color: var(--faint); font-size: 0.875rem; }
 .quiet-btn:hover { color: var(--fg); }
 .dock {
@@ -34,15 +36,15 @@ button:focus-visible, input:focus-visible { outline: 2px solid #c5cdd6; outline-
   backdrop-filter: blur(10px);
 }
 .dock p { margin: 0; min-width: 0; }
-.dock-num { font-family: var(--display); font-size: 1.125rem; font-variant-numeric: tabular-nums; margin-right: 0.5rem; }
+.dock-num { font-family: var(--display); font-size: 1.125rem; font-variant-numeric: tabular-nums; margin-right: 0.5rem; color: var(--accent); }
 .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
 .top, .split, .table-head, .field-row, .sleeve-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
-.mark { font-family: var(--display); font-size: 1.25rem; letter-spacing: 0.04em; margin: 0; }
+.mark { font-family: var(--display); font-size: 1.25rem; letter-spacing: 0.04em; margin: 0; color: var(--accent); }
+.hero { font-family: var(--display); font-size: clamp(2.75rem, 12vw, 4.25rem); line-height: 1; margin: 0.5rem 0 0; font-variant-numeric: tabular-nums; color: var(--accent); }
 .quiet, .note, footer, th { color: var(--faint); }
 .quiet { font-size: 0.75rem; margin: 0; }
 h2 { font-size: 0.875rem; font-weight: 500; margin: 0; }
 .grid { display: grid; gap: 2.5rem; margin-top: 1.5rem; }
-.hero { font-family: var(--display); font-size: clamp(2.75rem, 12vw, 4.25rem); line-height: 1; margin: 0.5rem 0 0; font-variant-numeric: tabular-nums; }
 .yen, .delta { color: var(--muted); font-size: 0.875rem; font-variant-numeric: tabular-nums; }
 .yen { margin: 0.75rem 0 0; }
 .delta { margin: 0.75rem 0 0; }
@@ -80,11 +82,11 @@ th { font-size: 0.75rem; }
 .ends { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--faint); }
 input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 2.75rem; background: transparent; margin: 0; }
 input[type="range"]::-webkit-slider-runnable-track { height: 1px; background: var(--line); }
-input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 1.375rem; height: 1.375rem; margin-top: -0.65rem; border-radius: 999px; background: var(--fg); }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 1.375rem; height: 1.375rem; margin-top: -0.65rem; border-radius: 999px; background: var(--accent); }
 input[type="range"]::-moz-range-track { height: 1px; background: var(--line); }
-input[type="range"]::-moz-range-thumb { width: 1.375rem; height: 1.375rem; border: 0; border-radius: 999px; background: var(--fg); }
+input[type="range"]::-moz-range-thumb { width: 1.375rem; height: 1.375rem; border: 0; border-radius: 999px; background: var(--accent); }
 .bar { display: flex; height: 0.5rem; margin-top: 1rem; overflow: hidden; border-radius: 999px; background: var(--line); }
-.bar i { display: block; height: 100%; background: var(--fg); }
+.bar i { display: block; height: 100%; background: var(--accent); }
 .sleeves { list-style: none; margin: 1rem 0 0; padding: 0; }
 .sleeve { border-bottom: 1px solid var(--line); padding: 0.75rem 0; }
 .sleeve p { margin: 0; font-size: 0.875rem; }

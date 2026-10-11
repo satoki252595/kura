@@ -46,7 +46,7 @@ function chart(points) {
     labels += `<text x="${x(i).toFixed(1)}" y="${h - 6}" fill="#6f6b63" font-size="12" text-anchor="middle">${p.year === 0 ? "いま" : p.year}</text>`;
   });
   const end = points[points.length - 1];
-  return `${grid}<path d="${area}" fill="#f3f0e8" fill-opacity="0.08"></path><path d="${line}" fill="none" stroke="#f3f0e8" stroke-width="2.25"></path><circle cx="${x(points.length - 1).toFixed(1)}" cy="${y(end.base).toFixed(1)}" r="3.5" fill="#f3f0e8"></circle>${labels}`;
+  return `${grid}<path d="${area}" fill="#e25c38" fill-opacity="0.1"></path><path d="${line}" fill="none" stroke="#e25c38" stroke-width="2.25"></path><circle cx="${x(points.length - 1).toFixed(1)}" cy="${y(end.base).toFixed(1)}" r="3.5" fill="#e25c38"></circle>${labels}`;
 }
 
 function renderSleeves() {
